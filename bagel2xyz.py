@@ -2,27 +2,23 @@
 ##### Author: Hai-Anh Le
 ##### Date  : May 28, 2015
 #####
-import numpy as np
+import json
 
 ## read json file
 fileName = input("BAGEL file name: ")
-inFile = open("./" + fileName, 'r')
+with open("./" + fileName, 'r') as f:
+    inFile = json.load(f)
 coordinates = []
 natom = 0
-for line in inFile.readlines():
-  if ("atom" in line):
-    natom = natom + 1
-    values = line.split()
-    atomparts = values[3].split("\"")
-    atom = atomparts[1]
-    x_tmp = values[7].split(",")
-    x = x_tmp[0]
-    y_tmp = values[8].split(",")
-    y = y_tmp[0]
-    z_tmp = values[9].split("]")
-    z = z_tmp[0]
-    coordinates.append(atom + "    " + x + "    " + y + "    " + z)
-inFile.close()
+fulljson = inFile['bagel']
+geomjson = fulljson[0]['geometry']
+natom = len(geomjson)
+for i in range(natom):
+  atom = geomjson[i]['atom']
+  x = str(geomjson[i]['xyz'][0])
+  y = str(geomjson[i]['xyz'][1])
+  z = str(geomjson[i]['xyz'][2])
+  coordinates.append(atom + "    " + x + "    " + y + "    " + z)
 
 ## write xyz file
 stem = fileName.split(".")
