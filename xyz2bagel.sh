@@ -24,13 +24,13 @@ echo '  "basis" : "'$basis'",'
 echo '  "df_basis" : "'$df'",'
 echo '  "angstrom" : "true",'
 echo '  "geometry" : ['
-nat=`awk 'NR==1,NR==1 {print $1}' $fl`
+nat=`awk 'NR==1 {print $1}' $fl |tr -d '\r'`
 i=1
 while [[ "$i" -le "$nat" ]]; do
   symb=`awk 'NR=='$i'+2,NR=='$i'+2 {print $1}' $fl`
   x=`awk 'NR=='$i'+2,NR=='$i'+2 {print $2}' $fl`
   y=`awk 'NR=='$i'+2,NR=='$i'+2 {print $3}' $fl`
-  z=`awk 'NR=='$i'+2,NR=='$i'+2 {print $4}' $fl`
+  z=`awk 'NR=='$i'+2,NR=='$i'+2 {print $4}' $fl |tr -d '\r'`
   printf '    { "atom" : "'$symb'", "xyz" : [  '
   printf "%15.9f" $x
   printf ','
